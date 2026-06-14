@@ -9,6 +9,22 @@ on:
   pull_request:
     branches: [ "main" ]
 
+    {
+  "name": "pizza-house-vavuniya",
+  "version": "1.0.0",
+  "description": "Premium Pizza House - Vavuniya / Colombo Menu and Order System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"No tests specified\""
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "nodemailer": "^6.9.13"
+  }
+}
+
 jobs:
   build:
 
