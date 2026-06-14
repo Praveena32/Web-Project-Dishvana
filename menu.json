@@ -1,0 +1,92 @@
+[
+  {
+    "id": "p1",
+    "name": "Signature Colombo Spicy Chicken Pizza",
+    "category": "pizza",
+    "price": 2400,
+    "description": "Tender tandoori chicken, red onions, green chilies, thick mozzarella, and a blend of local northern spices on a hand-stretched crust.",
+    "spicy_level": 3,
+    "is_popular": true,
+    "image": "images/spicy_chicken_pizza.png"
+  },
+  {
+    "id": "p2",
+    "name": "Devilled Seafood Pizza",
+    "category": "pizza",
+    "price": 2800,
+    "description": "Spicy devilled prawns, cuttlefish, roasted onions, capsicum, and premium melted mozzarella with a rich chili-tomato glaze.",
+    "spicy_level": 2,
+    "is_popular": true,
+    "image": "images/seafood_pizza.png"
+  },
+  {
+    "id": "p3",
+    "name": "Double Cheese Margherita Pizza",
+    "category": "pizza",
+    "price": 1800,
+    "description": "Traditional tomato sauce, double mozzarella cheese, fresh garden basil, and a light drizzle of extra virgin olive oil.",
+    "spicy_level": 0,
+    "is_popular": false,
+    "image": "images/margherita_pizza.png"
+  },
+  {
+    "id": "r1",
+    "name": "Dishvana Special Fried Rice",
+    "category": "rice",
+    "price": 1650,
+    "description": "Premium wok-fried basmati rice tossed with tender chicken, prawns, eggs, fresh carrots, and spring onions. Served with a side of hot chili paste.",
+    "spicy_level": 2,
+    "is_popular": true,
+    "image": "images/special_fried_rice.png"
+  },
+  {
+    "id": "r2",
+    "name": "Spicy Mongolian Veg Rice",
+    "category": "rice",
+    "price": 1300,
+    "description": "Aromatic rice stir-fried with fresh farm vegetables, golden mushrooms, paneer cubes, and authentic Mongolian fusion spices.",
+    "spicy_level": 1,
+    "is_popular": false,
+    "image": "images/mongolian_veg_rice.png"
+  },
+  {
+    "id": "s1",
+    "name": "Classic Garlic Bread with Cheese",
+    "category": "sides",
+    "price": 750,
+    "description": "Artisanal baguette slices toasted with rich garlic butter, herbs, and topped with melted bubbly mozzarella.",
+    "spicy_level": 0,
+    "is_popular": false,
+    "image": "images/garlic_bread.png"
+  },
+  {
+    "id": "s2",
+    "name": "Spicy Sri Lankan Chicken Wings",
+    "category": "sides",
+    "price": 1100,
+    "description": "Deep-fried crispy chicken wings tossed in a sweet, sour, and fiery Sri Lankan devilled glaze, garnished with spring onions.",
+    "spicy_level": 2,
+    "is_popular": true,
+    "image": "images/devilled_wings.png"
+  },
+  {
+    "id": "d1",
+    "name": "Tropical Passion Fruit Mojito",
+    "category": "drinks",
+    "price": 650,
+    "description": "A refreshing blend of fresh passion fruit pulp, crushed mint leaves, lime juice, brown sugar, and bubbly soda over crushed ice.",
+    "spicy_level": 0,
+    "is_popular": true,
+    "image": "images/passion_mojito.png"
+  },
+  {
+    "id": "d2",
+    "name": "Cold Brew Iced Coffee",
+    "category": "drinks",
+    "price": 700,
+    "description": "Rich locally-sourced coffee cold-brewed for 12 hours, blended with chilled milk, and topped with a creamy vanilla ice cream float.",
+    "spicy_level": 0,
+    "is_popular": false,
+    "image": "images/iced_coffee.png"
+  }
+]

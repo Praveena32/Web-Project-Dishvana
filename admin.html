@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dishvana Colombo | Shop Owner Dashboard Simulator</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #121215;
+            --bg-tertiary: #1a1a20;
+            --accent-primary: #f59e0b;
+            --accent-secondary: #ea580c;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+            --glass-bg: rgba(18, 18, 21, 0.75);
+            --glass-blur: blur(12px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-title h1 {
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-title span {
+            color: var(--accent-primary);
+        }
+
+        .badge {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(234, 88, 12, 0.15) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--accent-primary);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-danger {
+            background-color: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #ef4444;
+        }
+
+        .btn-danger:hover {
+            background-color: rgba(239, 68, 68, 0.08);
+            border-color: #ef4444;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        /* Sidebar Tabs Navigation */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: left;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .tab-btn.active {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            box-shadow: inset 0 0 10px rgba(245, 158, 11, 0.05);
+        }
+
+        .tab-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Content Sections */
+        .content-panel {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            min-height: 600px;
+            display: none;
+        }
+
+        .content-panel.active {
+            display: block;
+        }
+
+        .panel-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h2 {
+            font-size: 1.5rem;
+        }
+
+        /* Tab 1: Orders Table Layout */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.01);
+            color: var(--text-primary);
+        }
+
+        .order-id {
+            font-family: monospace;
+            font-weight: bold;
+            color: var(--accent-primary);
+            font-size: 0.95rem;
+        }
+
+        .order-items-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .order-items-list li {
+            margin-bottom: 4px;
+        }
+
+        .order-items-list strong {
+            color: var(--text-primary);
+        }
+
+        .price-text {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-badge.cod {
+            background-color: rgba(156, 163, 175, 0.12);
+            color: #9ca3af;
+            border: 1px solid rgba(156, 163, 175, 0.25);
+        }
+
+        .status-badge.payhere {
+            background-color: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--text-secondary);
+            stroke-width: 1.5;
+            margin-bottom: 15px;
+            fill: none;
+        }
+
+        /* Tab 2: Simulated Email Inbox */
+        .email-inbox-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: var(--bg-primary);
+            height: 550px;
+        }
+
+        .email-list {
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+
+        .email-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .email-item:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .email-item.active {
+            background-color: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .email-item-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .email-item-subject {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .email-item-preview {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .email-viewer {
+            background-color: white;
+            color: #333333;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .email-viewer-empty {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--text-secondary);
+            background-color: var(--bg-secondary);
+        }
+
+        /* Tab 3: Simulated SMS Feed */
+        .sms-simulation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-mockup {
+            width: 320px;
+            height: 600px;
+            border: 12px solid #27272a;
+            border-radius: 36px;
+            background-color: #09090b;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 18px;
+            background-color: #27272a;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 10;
+        }
+
+        .phone-header {
+            height: 50px;
+            background-color: #18181b;
+            border-bottom: 1px solid #27272a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            padding-top: 10px;
+        }
+
+        .sms-chat-body {
+            flex: 1;
+            padding: 20px 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sms-bubble {
+            background-color: #27272a;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            font-size: 0.82rem;
+            align-self: flex-start;
+            max-width: 85%;
+            line-height: 1.4;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .sms-bubble::after {
+            content: attr(data-time);
+            position: absolute;
+            bottom: -16px;
+            left: 5px;
+            font-size: 0.65rem;
+            color: #71717a;
+            white-space: nowrap;
+        }
+
+        .sms-empty-mock {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #71717a;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Spinner */
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(245, 158, 11, 0.1);
+            border-top: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-title">
+            <h1>Dishvana <span>Owner Portal</span></h1>
+            <span class="badge">Simulator Mode</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="loadDashboardData()">Refresh Data</button>
+            <button class="btn btn-danger" onclick="clearDashboardData()">Clear Database</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Sidebar Navigation Tabs -->
+        <aside class="sidebar">
+            <button class="tab-btn active" onclick="switchTab('orders-panel', this)">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                Incoming Orders
+            </button>
+            <button class="tab-btn" onclick="switchTab('emails-panel', this)">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 4l8 5 8-5"/></svg>
+                Simulated Emails
+            </button>
+            <button class="tab-btn" onclick="switchTab('sms-panel', this)">
+                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Simulated SMS
+            </button>
+        </aside>
+
+        <!-- Content Panels -->
+        <section class="panels-container">
+            <!-- 1. Orders Log Grid Panel -->
+            <div id="orders-panel" class="content-panel active">
+                <div class="panel-header">
+                    <h2>Live Transactions Ledger</h2>
+                </div>
+                <div class="table-wrapper">
+                    <table id="orders-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 120px;">Ref ID</th>
+                                <th style="width: 160px;">Time Placed</th>
+                                <th style="width: 250px;">Customer Details</th>
+                                <th>Cart Items</th>
+                                <th style="width: 120px; text-align: right;">Total Paid</th>
+                                <th style="width: 130px; text-align: center;">Gateway</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="orders-empty-state" class="empty-state">
+                    <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <p>No transactions have been logged yet.</p>
+                </div>
+            </div>
+
+            <!-- 2. Email Log Inbox Panel -->
+            <div id="emails-panel" class="content-panel">
+                <div class="panel-header">
+                    <h2>Shop Owner Email Client Simulator</h2>
+                </div>
+                <div class="email-inbox-grid">
+                    <div class="email-list" id="email-list-container">
+                        <!-- Populated dynamically -->
+                    </div>
+                    <div class="email-viewer" id="email-viewer-body">
+                        <div class="email-viewer-empty">
+                            <p>Select an email from the list to display details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. SMS Log Phone Simulator Panel -->
+            <div id="sms-panel" class="content-panel">
+                <div class="panel-header">
+                    <h2>Owner Mobile Notification simulator</h2>
+                </div>
+                <div class="sms-simulation-container">
+                    <div class="phone-mockup">
+                        <div class="phone-header">
+                            <span>Alerts SMS (+94 77 987 6543)</span>
+                        </div>
+                        <div class="sms-chat-body" id="sms-chat-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let currentTabId = 'orders-panel';
+        let ordersData = [];
+        let notificationsData = [];
+
+        function switchTab(panelId, btnEl) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-panel').forEach(panel => panel.classList.remove('active'));
+            
+            btnEl.classList.add('active');
+            document.getElementById(panelId).classList.add('active');
+            currentTabId = panelId;
+        }
+
+        function switchActiveEmail(emailId, element) {
+            document.querySelectorAll('.email-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            const email = notificationsData.find(n => n.id === emailId);
+            const viewer = document.getElementById('email-viewer-body');
+            
+            if (email) {
+                let statusHeader = `<div style="background-color: #f3f4f6; border-bottom: 1px solid #e5e7eb; padding: 15px; font-family: sans-serif; font-size: 0.85rem; color: #4b5563;">
+                    <strong>Subject:</strong> ${email.subject}<br>
+                    <strong>To:</strong> ${email.recipient}<br>
+                    <strong>Logged At:</strong> ${new Date(email.timestamp).toLocaleString()}<br>
+                    <strong>Delivery Engine:</strong> ${email.status}
+                </div>`;
+                
+                // Add preview links for test/ethereal email accounts if available
+                if (email.previewUrl) {
+                    statusHeader += `<div style="background-color: #fffbeb; border-bottom: 1px solid #fef3c7; padding: 12px 15px; font-family: sans-serif; font-size: 0.85rem; color: #b45309;">
+                        <strong>Ethereal Web Preview:</strong> <a href="${email.previewUrl}" target="_blank" style="color: #d97706; font-weight: bold; text-decoration: underline;">Click here to open mail client</a>
+                    </div>`;
+                }
+
+                viewer.innerHTML = `${statusHeader}<div style="padding: 20px; background-color: white; flex: 1;">${email.body}</div>`;
+            }
+        }
+
+        async function loadDashboardData() {
+            try {
+                // Fetch Orders
+                const resOrders = await fetch('/api/orders');
+                ordersData = await resOrders.json();
+                
+                // Fetch Notifications
+                const resNotify = await fetch('/api/admin/notifications');
+                notificationsData = await resNotify.json();
+                
+                renderOrders();
+                renderEmails();
+                renderSMS();
+            } catch (err) {
+                console.error("Dashboard error loading data:", err);
+            }
+        }
+
+        function renderOrders() {
+            const tbody = document.getElementById('orders-table-body');
+            const emptyState = document.getElementById('orders-empty-state');
+            
+            tbody.innerHTML = '';
+            
+            if (ordersData.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+            emptyState.style.display = 'none';
+
+            ordersData.forEach(order => {
+                const tr = document.createElement('tr');
+                
+                const itemsList = order.cart.map(item => `
+                    <li>${item.name} <strong>x${item.quantity}</strong></li>
+                `).join('');
+
+                const localTime = new Date(order.timestamp).toLocaleString();
+
+                tr.innerHTML = `
+                    <td><span class="order-id">#${order.orderId}</span></td>
+                    <td>${localTime}</td>
+                    <td>
+                        <strong>${order.customer.name}</strong><br>
+                        Phone: ${order.customer.phone}<br>
+                        Addr: ${order.customer.address}
+                    </td>
+                    <td>
+                        <ul class="order-items-list">
+                            ${itemsList}
+                        </ul>
+                    </td>
+                    <td style="text-align: right;"><span class="price-text">LKR ${order.total.toLocaleString()}</span></td>
+                    <td style="text-align: center;"><span class="status-badge ${order.paymentMethod}">${order.paymentMethod.toUpperCase()}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderEmails() {
+            const container = document.getElementById('email-list-container');
+            const emails = notificationsData.filter(n => n.type === 'email');
+            
+            container.innerHTML = '';
+            
+            if (emails.length === 0) {
+                container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;"><p>No emails logged.</p></div>';
+                document.getElementById('email-viewer-body').innerHTML = `
+                    <div class="email-viewer-empty">
+                        <p>Select an email from the list to display details.</p>
+                    </div>`;
+                return;
+            }
+
+            emails.forEach(email => {
+                const item = document.createElement('div');
+                item.className = 'email-item';
+                item.onclick = () => switchActiveEmail(email.id, item);
+                
+                const formattedTime = new Date(email.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                item.innerHTML = `
+                    <div class="email-item-header">
+                        <span>Dishvana Server</span>
+                        <span>${formattedTime}</span>
+                    </div>
+                    <div class="email-item-subject">${email.subject}</div>
+                    <div class="email-item-preview">Alert containing Grand Total checkouts.</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function renderSMS() {
+            const container = document.getElementById('sms-chat-container');
+            const smsLogs = notificationsData.filter(n => n.type === 'sms');
+            
+            container.innerHTML = '';
+            
+            if (smsLogs.length === 0) {
+                container.innerHTML = '<div class="sms-empty-mock"><p>No mobile notifications. Placed orders with validated phone details will spawn text messages here.</p></div>';
+                return;
+            }
+
+            smsLogs.forEach(sms => {
+                const bubble = document.createElement('div');
+                bubble.className = 'sms-bubble';
+                
+                const timeStr = new Date(sms.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                bubble.setAttribute('data-time', timeStr);
+                bubble.innerText = sms.body;
+                
+                container.appendChild(bubble);
+            });
+            
+            // Scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function clearDashboardData() {
+            if (confirm("Are you sure you want to clear the entire order database and simulation history?")) {
+                try {
+                    await fetch('/api/admin/clear', { method: 'POST' });
+                    loadDashboardData();
+                } catch (err) {
+                    alert("Failed to clear database");
+                }
+            }
+        }
+
+        // Initialize and poll
+        loadDashboardData();
+        setInterval(loadDashboardData, 4000); // Poll every 4 seconds
+    </script>
+</body>
+</html>
