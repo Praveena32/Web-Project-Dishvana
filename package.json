@@ -9,6 +9,7 @@
     "test": "echo \"No tests specified\""
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "dotenv": "^16.4.5",
     "nodemailer": "^6.9.13"
   }
