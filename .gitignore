@@ -15,3 +15,7 @@ yarn-error.log*
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Large Video Files
+*.mp4
+Web Project Dishvana.mp4

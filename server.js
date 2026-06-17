@@ -8,7 +8,8 @@ const querystring = require('querystring');
 const nodemailer = require('nodemailer');
 
 const PORT = process.env.PORT || 8000;
-const ORDERS_FILE = path.join(__dirname, 'orders.json');
+const isVercel = process.env.VERCEL || process.env.NOW_BUILDER;
+const ORDERS_FILE = isVercel ? path.join('/tmp', 'orders.json') : path.join(__dirname, 'orders.json');
 
 // In-memory notifications logs for the simulation dashboard
 let notificationLogs = [];
@@ -411,10 +412,14 @@ const server = http.createServer((req, res) => {
     });
 });
 
-server.listen(PORT, () => {
-    console.log("==============================================================");
-    console.log(` Dishvana Colombo - Modern Demo Server running at:`);
-    console.log(` http://localhost:${PORT}/`);
-    console.log("==============================================================");
-    console.log("Press Ctrl+C to stop the server.");
-});
+if (require.main === module) {
+    server.listen(PORT, () => {
+        console.log("==============================================================");
+        console.log(` Dishvana Colombo - Modern Demo Server running at:`);
+        console.log(` http://localhost:${PORT}/`);
+        console.log("==============================================================");
+        console.log("Press Ctrl+C to stop the server.");
+    });
+}
+
+module.exports = server;
